@@ -1,4 +1,4 @@
-// generates an acronym from an input string
+// Package acronym generates an acronym from an input string
 package acronym
 
 import (
@@ -6,7 +6,7 @@ import (
 	"unicode"
 )
 
-// Takes a string and returns the acronym of all words
+// Abbreviate Takes a string and returns the acronym of all words
 func Abbreviate(s string) string {
 	f := func(c rune) bool {
 		return !unicode.IsLetter(c) && c != '\''
