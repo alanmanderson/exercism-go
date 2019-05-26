@@ -4,6 +4,7 @@ package acronym
 import (
 	"strings"
 	"unicode"
+	"unicode/utf8"
 )
 
 // Abbreviate Takes a string and returns the acronym of all words
@@ -13,7 +14,8 @@ func Abbreviate(s string) string {
 	}
 	var acronym strings.Builder
 	for _, element := range strings.FieldsFunc(s, f) {
-		acronym.WriteString(strings.ToUpper(element[0:1]))
+		r, _ := utf8.DecodeRuneInString(element)
+		acronym.WriteString(strings.ToUpper(string(r)))
 	}
 	return acronym.String()
 }
