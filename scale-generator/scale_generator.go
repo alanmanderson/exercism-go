@@ -28,11 +28,12 @@ func Scale(tonic string, intervals string) []string {
 	}
 	scaleLength := len(scale)
 	for i, rune := range intervals[0 : len(intervals)-1] {
-		if rune == 'm' {
+		switch rune {
+		case 'm':
 			curIndex = (curIndex + 1) % scaleLength
-		} else if rune == 'M' {
+		case 'M':
 			curIndex = (curIndex + 2) % scaleLength
-		} else if rune == 'A' {
+		case 'A':
 			curIndex = (curIndex + 3) % scaleLength
 		}
 		out[i+1] = scale[curIndex]
