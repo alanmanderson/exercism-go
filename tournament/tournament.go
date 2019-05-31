@@ -7,14 +7,14 @@ import (
 	"strings"
 )
 
+type gameData map[string][5]int
+
 // Tally returns the tally of wins by team
 func Tally(r io.Reader, w io.Writer) error {
 	data := getReaderData(r)
 	games := strings.Split(data, "\n")
-	//var results map[string][]int
-	results := make(map[string][5]int, len(games))
+	results := make(gameData, len(games))
 	for _, game := range games {
-		fmt.Printf(game)
 		values := strings.Split(game, ";")
 		if len(values) != 3 {
 			continue
@@ -72,18 +72,37 @@ func getReaderData(r io.Reader) string {
 	return sb.String()
 }
 
-func generateTable(data map[string][5]int) string {
+func generateTable(data gameData) string {
 	var sb strings.Builder
-	//var sortedKeys []string
-	//for team, stats := range data {
+	sortedKeys := getSortedKeys(data)
+	fmt.Printf("%v", sortedKeys)
 
-	//}
-
-	sb.WriteString(fmt.Sprintf("%-35s| MP | W | D | L | P\n", "Team"))
-	for team, stats := range data {
-		sb.WriteString(fmt.Sprintf("%-35s| %-1d | %-1d | %-1d | %-1d\n", team, stats[0], stats[2], stats[3], stats[4]))
+	sb.WriteString(fmt.Sprintf("%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P"))
+	for _, teamName := range sortedKeys {
+		sb.WriteString(fmt.Sprintf("%-31s|%3d |%3d |%3d |%3d |%3d\n", teamName, data[teamName][0], data[teamName][1], data[teamName][3], data[teamName][2], data[teamName][4]))
 	}
 	return sb.String()
+}
+
+func getSortedKeys(data gameData) (out []string) {
+	for teamName := range data {
+		out = append(out, teamName)
+	}
+	sortedIndex := len(out)
+	for sortedIndex > 0 {
+		for pos, teamName := range out {
+			if pos == sortedIndex-1 {
+				break
+			}
+			if data[teamName][4] < data[out[pos+1]][4] {
+				tmp := out[pos]
+				out[pos] = out[pos+1]
+				out[pos+1] = tmp
+			}
+		}
+		sortedIndex--
+	}
+	return
 }
 
 func main() {
