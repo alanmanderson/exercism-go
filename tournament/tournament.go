@@ -7,7 +7,32 @@ import (
 	"strings"
 )
 
-type gameData map[string][5]int
+type gameData map[string]stats
+
+type stats struct {
+	matchesPlayed int
+	wins          int
+	losses        int
+	draws         int
+	points        int
+}
+
+func (s *stats) addWin() {
+	s.wins++
+	s.matchesPlayed++
+	s.points += 3
+}
+
+func (s *stats) addLoss() {
+	s.losses++
+	s.matchesPlayed++
+}
+
+func (s *stats) addDraw() {
+	s.draws++
+	s.matchesPlayed++
+	s.points++
+}
 
 // Tally returns the tally of wins by team
 func Tally(r io.Reader, w io.Writer) error {
@@ -15,22 +40,25 @@ func Tally(r io.Reader, w io.Writer) error {
 	games := strings.Split(data, "\n")
 	results := make(gameData, len(games))
 	for _, game := range games {
+		if len(game) == 0 || game[0] == '#' {
+			continue
+		}
 		values := strings.Split(game, ";")
 		if len(values) != 3 {
-			continue
+			return errors.New("Invalid game row")
 		}
 		stat1 := results[values[0]]
 		stat2 := results[values[1]]
 		switch values[2] {
 		case "win":
-			updateRow("win", &stat1)
-			updateRow("loss", &stat2)
+			stat1.addWin()
+			stat2.addLoss()
 		case "loss":
-			updateRow("win", &stat2)
-			updateRow("loss", &stat1)
+			stat1.addLoss()
+			stat2.addWin()
 		case "draw":
-			updateRow("draw", &stat1)
-			updateRow("draw", &stat2)
+			stat1.addDraw()
+			stat2.addDraw()
 		default:
 			return errors.New("Invalid game result")
 		}
@@ -39,23 +67,6 @@ func Tally(r io.Reader, w io.Writer) error {
 	}
 	table := generateTable(results)
 	fmt.Fprintf(w, "%s", table)
-	return nil
-}
-
-func updateRow(result string, row *[5]int) error {
-	switch result {
-	case "win":
-		row[1]++
-		row[4] = row[4] + 3
-	case "loss":
-		row[2]++
-	case "draw":
-		row[3]++
-		row[4]++
-	default:
-		return errors.New("Invalid result")
-	}
-	row[0]++
 	return nil
 }
 
@@ -75,11 +86,12 @@ func getReaderData(r io.Reader) string {
 func generateTable(data gameData) string {
 	var sb strings.Builder
 	sortedKeys := getSortedKeys(data)
-	fmt.Printf("%v", sortedKeys)
 
 	sb.WriteString(fmt.Sprintf("%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P"))
 	for _, teamName := range sortedKeys {
-		sb.WriteString(fmt.Sprintf("%-31s|%3d |%3d |%3d |%3d |%3d\n", teamName, data[teamName][0], data[teamName][1], data[teamName][3], data[teamName][2], data[teamName][4]))
+		sb.WriteString(fmt.Sprintf("%-31s|%3d |%3d |%3d |%3d |%3d\n",
+			teamName, data[teamName].matchesPlayed, data[teamName].wins,
+			data[teamName].draws, data[teamName].losses, data[teamName].points))
 	}
 	return sb.String()
 }
@@ -94,7 +106,10 @@ func getSortedKeys(data gameData) (out []string) {
 			if pos == sortedIndex-1 {
 				break
 			}
-			if data[teamName][4] < data[out[pos+1]][4] {
+			if data[teamName].points == data[out[pos+1]].points && teamName < out[pos+1] {
+				continue
+			}
+			if data[teamName].points <= data[out[pos+1]].points {
 				tmp := out[pos]
 				out[pos] = out[pos+1]
 				out[pos+1] = tmp
@@ -103,10 +118,4 @@ func getSortedKeys(data gameData) (out []string) {
 		sortedIndex--
 	}
 	return
-}
-
-func main() {
-
-	fmt.Printf("Hello World")
-
 }
