@@ -1,6 +1,7 @@
 package tournament
 
 import (
+	"encoding/csv"
 	"errors"
 	"fmt"
 	"io"
@@ -36,20 +37,21 @@ func (s *stats) addDraw() {
 
 // Tally returns the tally of wins by team
 func Tally(r io.Reader, w io.Writer) error {
-	data := getReaderData(r)
-	games := strings.Split(data, "\n")
-	results := make(gameData, len(games))
-	for _, game := range games {
-		if len(game) == 0 || game[0] == '#' {
-			continue
-		}
-		values := strings.Split(game, ";")
-		if len(values) != 3 {
+	csvReader := csv.NewReader(r)
+	csvReader.Comma = ';'
+	csvReader.Comment = '#'
+	data, err := csvReader.ReadAll()
+	if err != nil {
+		return err
+	}
+	results := make(gameData, len(data))
+	for _, game := range data {
+		if len(game) != 3 {
 			return errors.New("Invalid game row")
 		}
-		stat1 := results[values[0]]
-		stat2 := results[values[1]]
-		switch values[2] {
+		stat1 := results[game[0]]
+		stat2 := results[game[1]]
+		switch game[2] {
 		case "win":
 			stat1.addWin()
 			stat2.addLoss()
@@ -62,25 +64,12 @@ func Tally(r io.Reader, w io.Writer) error {
 		default:
 			return errors.New("Invalid game result")
 		}
-		results[values[0]] = stat1
-		results[values[1]] = stat2
+		results[game[0]] = stat1
+		results[game[1]] = stat2
 	}
 	table := generateTable(results)
 	fmt.Fprintf(w, "%s", table)
 	return nil
-}
-
-func getReaderData(r io.Reader) string {
-	var sb strings.Builder
-	b := make([]byte, 8)
-	for {
-		bytes, err := r.Read(b)
-		if err == io.EOF {
-			break
-		}
-		sb.WriteString(string(b[0:bytes]))
-	}
-	return sb.String()
 }
 
 func generateTable(data gameData) string {
