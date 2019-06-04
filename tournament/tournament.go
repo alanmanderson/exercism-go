@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"io"
+	"sort"
 )
 
 type gameData map[string]stats
@@ -84,22 +85,8 @@ func getSortedKeys(data gameData) (out []string) {
 	for teamName := range data {
 		out = append(out, teamName)
 	}
-	sortedIndex := len(out)
-	for sortedIndex > 0 {
-		for pos, teamName := range out {
-			if pos == sortedIndex-1 {
-				break
-			}
-			if data[teamName].points == data[out[pos+1]].points && teamName < out[pos+1] {
-				continue
-			}
-			if data[teamName].points <= data[out[pos+1]].points {
-				tmp := out[pos]
-				out[pos] = out[pos+1]
-				out[pos+1] = tmp
-			}
-		}
-		sortedIndex--
-	}
+	sort.Slice(out, func(i, j int) bool {
+		return data[out[i]].points > data[out[j]].points || data[out[i]].points == data[out[j]].points && out[i] < out[j]
+	})
 	return
 }
