@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"strings"
 )
 
 type gameData map[string]stats
@@ -67,22 +66,18 @@ func Tally(r io.Reader, w io.Writer) error {
 		results[game[0]] = stat1
 		results[game[1]] = stat2
 	}
-	table := generateTable(results)
-	fmt.Fprintf(w, "%s", table)
+	generateTable(results, w)
 	return nil
 }
 
-func generateTable(data gameData) string {
-	var sb strings.Builder
+func generateTable(data gameData, w io.Writer) {
 	sortedKeys := getSortedKeys(data)
-
-	sb.WriteString(fmt.Sprintf("%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P"))
+	fmt.Fprintf(w, "%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P")
 	for _, teamName := range sortedKeys {
-		sb.WriteString(fmt.Sprintf("%-31s|%3d |%3d |%3d |%3d |%3d\n",
+		fmt.Fprintf(w, "%-31s|%3d |%3d |%3d |%3d |%3d\n",
 			teamName, data[teamName].matchesPlayed, data[teamName].wins,
-			data[teamName].draws, data[teamName].losses, data[teamName].points))
+			data[teamName].draws, data[teamName].losses, data[teamName].points)
 	}
-	return sb.String()
 }
 
 func getSortedKeys(data gameData) (out []string) {
