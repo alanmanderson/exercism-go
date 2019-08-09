@@ -40,12 +40,12 @@ func Tally(r io.Reader, w io.Writer) error {
 	csvReader := csv.NewReader(r)
 	csvReader.Comma = ';'
 	csvReader.Comment = '#'
-	data, err := csvReader.ReadAll()
-	if err != nil {
-		return err
-	}
-	results := make(gameData, len(data))
-	for _, game := range data {
+	results := make(gameData, 0)
+	for {
+		game, err := csvReader.Read()
+		if err == io.EOF {
+			break
+		}
 		if len(game) != 3 {
 			return errors.New("Invalid game row")
 		}
@@ -72,21 +72,18 @@ func Tally(r io.Reader, w io.Writer) error {
 }
 
 func generateTable(data gameData, w io.Writer) {
-	sortedKeys := getSortedKeys(data)
+	sortedKeys := make([]string, 0)
+	for teamName := range data {
+		sortedKeys = append(sortedKeys, teamName)
+	}
+	sort.Slice(sortedKeys, func(i, j int) bool {
+		return data[sortedKeys[i]].points > data[sortedKeys[j]].points || data[sortedKeys[i]].points == data[sortedKeys[j]].points && sortedKeys[i] < sortedKeys[j]
+	})
+
 	fmt.Fprintf(w, "%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P")
 	for _, teamName := range sortedKeys {
 		fmt.Fprintf(w, "%-31s|%3d |%3d |%3d |%3d |%3d\n",
 			teamName, data[teamName].matchesPlayed, data[teamName].wins,
 			data[teamName].draws, data[teamName].losses, data[teamName].points)
 	}
-}
-
-func getSortedKeys(data gameData) (out []string) {
-	for teamName := range data {
-		out = append(out, teamName)
-	}
-	sort.Slice(out, func(i, j int) bool {
-		return data[out[i]].points > data[out[j]].points || data[out[i]].points == data[out[j]].points && out[i] < out[j]
-	})
-	return
 }
