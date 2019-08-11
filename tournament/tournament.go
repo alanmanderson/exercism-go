@@ -72,12 +72,17 @@ func Tally(r io.Reader, w io.Writer) error {
 }
 
 func generateTable(data gameData, w io.Writer) {
-	sortedKeys := make([]string, 0)
+	sortedKeys := make([]string, 0, len(data))
 	for teamName := range data {
 		sortedKeys = append(sortedKeys, teamName)
 	}
 	sort.Slice(sortedKeys, func(i, j int) bool {
-		return data[sortedKeys[i]].points > data[sortedKeys[j]].points || data[sortedKeys[i]].points == data[sortedKeys[j]].points && sortedKeys[i] < sortedKeys[j]
+		aName, bName := sortedKeys[i], sortedKeys[j]
+		a, b := data[aName], data[bName]
+		if a.points == b.points {
+			return aName < bName
+		}
+		return a.points > b.points
 	})
 
 	fmt.Fprintf(w, "%-31s|%3s |%3s |%3s |%3s |%3s\n", "Team", "MP", "W", "D", "L", "P")
