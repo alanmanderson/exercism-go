@@ -1,8 +1,10 @@
 package grep
 
 import (
-	//	"os"
+	"bufio"
 	"fmt"
+	"os"
+	"regexp"
 )
 
 type parameters struct {
@@ -13,13 +15,39 @@ type parameters struct {
 	matchEntireLine    bool
 }
 
+type result struct {
+	file       string
+	lineNumber int
+	text       string
+}
+
 // Search takes a pattern, flags, and a list of files and returns a list of lines that match that pattern
 func Search(pattern string, flags []string, files []string) []string {
 	params := getParameters(flags)
 	fmt.Printf("%v", params)
-	//for file := range files {
-	//}
-	return []string{}
+	results := make([]result, 0)
+	for _, fileName := range files {
+		file, err := os.Open(fileName)
+		if err != nil {
+			fmt.Printf("Error encountered")
+		}
+		defer file.Close()
+
+		scanner := bufio.NewScanner(file)
+		lineNumber := 0
+		for scanner.Scan() {
+			line := scanner.Text()
+			if isMatch(line, pattern) {
+				results = append(results, result{fileName, lineNumber, line})
+			}
+		}
+
+		if err := scanner.Err(); err != nil {
+			fmt.Printf("Error reading file")
+		}
+	}
+	out := getResultStrings(results)
+	return out
 }
 
 func getParameters(flags []string) parameters {
@@ -39,4 +67,16 @@ func getParameters(flags []string) parameters {
 		}
 	}
 	return p
+}
+
+func isMatch(text string, pattern string) bool {
+	isMatch, _ := regexp.Match(pattern, []byte(pattern))
+	return isMatch
+}
+
+func getResultStrings(in []result) (out []string) {
+	for _, res := range in {
+		out = append(out, res.text)
+	}
+	return
 }
