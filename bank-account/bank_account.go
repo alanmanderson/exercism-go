@@ -13,6 +13,6 @@ func Open(amt float32) *Act {
 }
 
 //Balance returns the balance of the account
-func (a Act) Balance() (float32, error) {
-	return a.balance, nil
+func (a Act) Balance() (float32, bool) {
+	return a.balance, true
 }
