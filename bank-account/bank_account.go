@@ -16,3 +16,9 @@ func Open(amt float32) *Act {
 func (a Act) Balance() (float32, bool) {
 	return a.balance, true
 }
+
+//Close closes an account
+func (a Act) Close() (float32, bool) {
+	a.closed = true
+	return a.balance, a.closed
+}
