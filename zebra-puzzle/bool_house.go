@@ -127,7 +127,7 @@ func (h *boolHouse) negateOrder(i int) {
 	case 3:
 		h.isThird = newFalse()
 	case 4:
-		h.isForth = newFalse()
+		h.isFourth = newFalse()
 	case 5:
 		h.isFifth = newFalse()
 	}
@@ -273,7 +273,7 @@ func (h *boolHouse) negateColor(color string) {
 	case "Red":
 		h.paintedRed = newFalse()
 	case "Green":
-		h.paintedGreem = newFalse()
+		h.paintedGreen = newFalse()
 	case "Blue":
 		h.paintedBlue = newFalse()
 	case "Ivory":
@@ -285,7 +285,7 @@ func (h *boolHouse) negateColor(color string) {
 
 func (h *boolHouse) setPet(pet string) {
 	h.ownsDog = newFalse()
-	h.ownsSnail = newFalse()
+	h.ownsSnails = newFalse()
 	h.ownsFox = newFalse()
 	h.ownsHorse = newFalse()
 	h.ownsZebra = newFalse()
