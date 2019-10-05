@@ -71,6 +71,7 @@ func SolvePuzzle() Solution {
 		boolHouse{},
 		boolHouse{},
 	}
+	setup(&boolHouses)
 	solution := Solution{"", ""}
 	for _, house := range houses {
 		if house.beverage == "water" {
@@ -84,9 +85,9 @@ func SolvePuzzle() Solution {
 }
 
 func setup(boolHouses *[5]boolHouse) {
-	boolHouses.setInhabitant("Englishman")
-	boolHouses.setColor("Red")
-	for i := 1; i < len(boolhouses); i++ {
+	boolHouses[0].setInhabitant("Englishman")
+	boolHouses[0].setColor("Red")
+	for i := 1; i < len(boolHouses); i++ {
 		boolHouses[i].negateColor("Red")
 		boolHouses[i].negateInhabitant("Englishman")
 	}
@@ -94,10 +95,10 @@ func setup(boolHouses *[5]boolHouse) {
 	boolHouses[0].negateDrink("Coffee")
 	boolHouses[0].negateDrink("Tea")
 	boolHouses[1].setInhabitant("Norwegian")
-	boolHouses[1].isFirst = true
+	boolHouses[1].setOrder(1)
 	boolHouses[1].negatePet("Dog")
 	boolHouses[1].negateCigarette("Parliament")
-	boolHouses[2].isSecond = true
+	boolHouses[2].setOrder(2)
 	boolHouses[2].setColor("Blue")
 
 }
