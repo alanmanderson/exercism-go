@@ -87,28 +87,22 @@ func SolvePuzzle() Solution {
 func setup(boolHouses *[5]boolHouse) {
 	boolHouses[0].setInhabitant("Englishman")
 	boolHouses[0].setColor("Red")
-	for i := 1; i < len(boolHouses); i++ {
-		boolHouses[i].negateColor("Red")
-		boolHouses[i].negateInhabitant("Englishman")
-	}
+	negateAttribute(boolHouses, "Color", "Red", 0)
+	negateAttribute(boolHouses, "Inhabitant", "Englishman", 0)
+
 	boolHouses[1].setInhabitant("Spaniard")
 	boolHouses[1].setPet("Dog")
-	for i := 0; i < len(boolHouses); i++ {
-		if i == 1 {
-			continue
-		}
-		boolHouses[i].negatePet("Dog")
-		boolHouses[i].negateInhabitant("Spaniard")
-	}
+	negateAttribute(boolHouses, "Pet", "Dog", 1)
+	negateAttribute(boolHouses, "Inhabitant", "Spaniard", 1)
+
 	boolHouses[2].setInhabitant("Ukranian")
 	boolHouses[2].setDrink("Tea")
+	negateAttribute(boolHouses, "Inhabitant", "Ukranian", 2)
+	negateAttribute(boolHouses, "Drink", "Tea", 2)
 
-	boolHouses[0].negatePet("Dog")
 	boolHouses[0].negateDrink("Coffee")
-	boolHouses[0].negateDrink("Tea")
 	boolHouses[1].setInhabitant("Norwegian")
 	boolHouses[1].setOrder(1)
-	boolHouses[1].negatePet("Dog")
 	boolHouses[1].negateCigarette("Parliament")
 	boolHouses[2].setOrder(2)
 	boolHouses[2].setColor("Blue")
@@ -125,6 +119,12 @@ func negateAttribute(boolHouses *[5]boolHouse, attName string, attValue string, 
 			boolHouses[i].negateDrink(attValue)
 		case "Inhabitant":
 			boolHouses[i].negateInahbitant(attValue)
+		case "Pet":
+			boolHouses[i].negatePet(attValue)
+		case "Cigarette":
+			boolHouses[i].negateCigarette(attValue)
+		case "Color":
+			boolHouses[i].negateColor(attValue)
 		}
 	}
 }
