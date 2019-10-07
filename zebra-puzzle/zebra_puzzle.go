@@ -57,74 +57,67 @@ var pets = []string{
 
 //SolvePuzzle stuff
 func SolvePuzzle() Solution {
-	houses := [5]house{
-		house{1, "Englishman", "red", "", "", ""},
-		house{2, "", "", "", "", ""},
-		house{3, "", "", "", "", ""},
-		house{4, "", "", "", "", ""},
-		house{5, "", "", "", "", ""},
-	}
-	boolHouses := [5]boolHouse{
+	houses := [5]boolHouse{
 		boolHouse{},
 		boolHouse{},
 		boolHouse{},
 		boolHouse{},
 		boolHouse{},
 	}
-	setup(&boolHouses)
+	setup(&houses)
 	solution := Solution{"", ""}
 	for _, house := range houses {
-		if house.beverage == "water" {
-			solution.DrinksWater = house.inhabitant
+		if house.drinksWater {
+			solution.DrinksWater = house.getInhabitant()
 		}
-		if house.pet == "zebra" {
-			solution.OwnsZebra = house.inhabitant
+		if house.ownsZebra {
+			solution.OwnsZebra = house.getInhabitant()
 		}
 	}
 	return solution
 }
 
-func setup(boolHouses *[5]boolHouse) {
-	boolHouses[0].setInhabitant("Englishman")
-	boolHouses[0].setColor("Red")
-	negateAttribute(boolHouses, "Color", "Red", 0)
-	negateAttribute(boolHouses, "Inhabitant", "Englishman", 0)
+func setup(houses *[5]boolHouse) {
+	houses[0].setInhabitant("Englishman")
+	houses[0].setColor("Red")
+	negateAttribute(houses, "Color", "Red", 0)
+	negateAttribute(houses, "Inhabitant", "Englishman", 0)
 
-	boolHouses[1].setInhabitant("Spaniard")
-	boolHouses[1].setPet("Dog")
-	negateAttribute(boolHouses, "Pet", "Dog", 1)
-	negateAttribute(boolHouses, "Inhabitant", "Spaniard", 1)
+	houses[1].setInhabitant("Spaniard")
+	houses[1].setPet("Dog")
+	negateAttribute(houses, "Pet", "Dog", 1)
+	negateAttribute(houses, "Inhabitant", "Spaniard", 1)
 
-	boolHouses[2].setInhabitant("Ukranian")
-	boolHouses[2].setDrink("Tea")
-	negateAttribute(boolHouses, "Inhabitant", "Ukranian", 2)
-	negateAttribute(boolHouses, "Drink", "Tea", 2)
+	houses[2].setInhabitant("Ukranian")
+	houses[2].setDrink("Tea")
+	negateAttribute(houses, "Inhabitant", "Ukranian", 2)
+	negateAttribute(houses, "Drink", "Tea", 2)
 
-	boolHouses[0].negateDrink("Coffee")
-	boolHouses[1].setInhabitant("Norwegian")
-	boolHouses[1].setOrder(1)
-	boolHouses[1].negateCigarette("Parliament")
-	boolHouses[2].setOrder(2)
-	boolHouses[2].setColor("Blue")
+	houses[0].negateDrink("Coffee")
+	houses[1].setInhabitant("Norwegian")
+	houses[1].setOrder(1)
+	houses[1].negateCigarette("Parliament")
+	houses[2].setOrder(2)
+	houses[2].setColor("Blue")
 
 }
 
-func negateAttribute(boolHouses *[5]boolHouse, attName string, attValue string, exclude int) {
-	for i := 0; i < len(boolHouses); i++ {
+func negateAttribute(houses *[5]boolHouse, attName string, attValue string, exclude int) {
+	for i := 0; i < len(houses); i++ {
 		if i == exclude {
 			continue
 		}
 		switch attName {
 		case "Drink":
-			boolHouses[i].negateDrink(attValue)
+			houses[i].negateDrink(attValue)
 		case "Inhabitant":
-			boolHouses[i].negateInahbitant(attValue)
+			houses[i].negateInahbitant(attValue)
 		case "Pet":
-			boolHouses[i].negatePet(attValue)
+			houses[i].negatePet(attValue)
 		case "Cigarette":
-			boolHouses[i].negateCigarette(attValue)
+			houses[i].negateCigarette(attValue)
 		case "Color":
-			boolHouses[i].negateColor(attValue)
+			houses[i].negateColor(attValue)
 		}
 	}
 }

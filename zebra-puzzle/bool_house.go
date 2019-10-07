@@ -1,5 +1,13 @@
 package zebra
 
+const (
+	englishman = "Englishman"
+	spaniard   = "Spaniard"
+	norwegian  = "Norwegian"
+	japanese   = "Japanese"
+	ukranian   = "Ukranian"
+)
+
 type boolHouse struct {
 	isFirst             *bool
 	isSecond            *bool
@@ -33,33 +41,48 @@ type boolHouse struct {
 	ownsZebra           *bool
 }
 
+func (h boolHouse) getInhabitant() {
+	switch {
+	case h.isEnglishman:
+		return englishman
+	case h.isSpaniard:
+		return spaniard
+	case h.isUkranian:
+		return ukranian
+	case h.isJapanese:
+		return japanese
+	case h.isNorwegian:
+		return norewegian
+	}
+}
+
 func (h *boolHouse) setInhabitant(i string) {
 	switch i {
-	case "Englishman":
+	case englishman:
 		h.isEnglishman = newTrue()
 		h.isSpaniard = newFalse()
 		h.isUkranian = newFalse()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
-	case "Spaniard":
+	case spaniard:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newTrue()
 		h.isUkranian = newFalse()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
-	case "Ukranian":
+	case ukranian:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
 		h.isUkranian = newTrue()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
-	case "Japanese":
+	case japanese:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
 		h.isUkranian = newFalse()
 		h.isJapanese = newTrue()
 		h.isNorwegian = newFalse()
-	case "Norwegian":
+	case norwegian:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
 		h.isUkranian = newFalse()
@@ -70,15 +93,15 @@ func (h *boolHouse) setInhabitant(i string) {
 
 func (h *boolHouse) negateInhabitant(i string) {
 	switch i {
-	case "Englishman":
+	case englishman:
 		h.isEnglishman = newFalse()
-	case "Spaniard":
+	case spaniard:
 		h.isSpaniard = newFalse()
-	case "Ukranian":
+	case ukranian:
 		h.isUkranian = newFalse()
-	case "Norwegian":
+	case norwegian:
 		h.isNorwegian = newFalse()
-	case "Japanese":
+	case japanese:
 		h.isJapanese = newFalse()
 	}
 }
