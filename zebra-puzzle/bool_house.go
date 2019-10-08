@@ -1,11 +1,37 @@
 package zebra
 
 const (
-	englishman = "Englishman"
-	spaniard   = "Spaniard"
-	norwegian  = "Norwegian"
-	japanese   = "Japanese"
-	ukranian   = "Ukranian"
+	inhabitant    = "Inhabitant"
+	color         = "Color"
+	pet           = "Pet"
+	order         = "Order"
+	drink         = "Drink"
+	cigarette     = "Cigarette"
+	englishman    = "Englishman"
+	spaniard      = "Spaniard"
+	norwegian     = "Norwegian"
+	japanese      = "Japanese"
+	ukrainian     = "Ukrainian"
+	oldGold       = "Old Gold"
+	kools         = "Kools"
+	chesterfields = "Chesterfields"
+	luckyStrike   = "Lucky Strike"
+	parliaments   = "Parliaments"
+	coffee        = "Coffee"
+	tea           = "Tea"
+	milk          = "Milk"
+	orangeJuice   = "Orange Juice"
+	water         = "Water"
+	red           = "Red"
+	green         = "Green"
+	ivory         = "Ivory"
+	yellow        = "Yellow"
+	blue          = "Blue"
+	dog           = "Dog"
+	snails        = "Snails"
+	fox           = "Fox"
+	horse         = "Horse"
+	zebra         = "Zebra"
 )
 
 type boolHouse struct {
@@ -18,7 +44,7 @@ type boolHouse struct {
 	isSpaniard          *bool
 	isNorwegian         *bool
 	isJapanese          *bool
-	isUkranian          *bool
+	isUkrainian         *bool
 	smokesOldGold       *bool
 	smokesKools         *bool
 	smokesChesterfields *bool
@@ -41,19 +67,20 @@ type boolHouse struct {
 	ownsZebra           *bool
 }
 
-func (h boolHouse) getInhabitant() {
+func (h boolHouse) getInhabitant() string {
 	switch {
-	case h.isEnglishman:
+	case *h.isEnglishman:
 		return englishman
-	case h.isSpaniard:
+	case *h.isSpaniard:
 		return spaniard
-	case h.isUkranian:
-		return ukranian
-	case h.isJapanese:
+	case *h.isUkrainian:
+		return ukrainian
+	case *h.isJapanese:
 		return japanese
-	case h.isNorwegian:
-		return norewegian
+	case *h.isNorwegian:
+		return norwegian
 	}
+	panic("Invalid inhabitant")
 }
 
 func (h *boolHouse) setInhabitant(i string) {
@@ -61,31 +88,31 @@ func (h *boolHouse) setInhabitant(i string) {
 	case englishman:
 		h.isEnglishman = newTrue()
 		h.isSpaniard = newFalse()
-		h.isUkranian = newFalse()
+		h.isUkrainian = newFalse()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
 	case spaniard:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newTrue()
-		h.isUkranian = newFalse()
+		h.isUkrainian = newFalse()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
-	case ukranian:
+	case ukrainian:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
-		h.isUkranian = newTrue()
+		h.isUkrainian = newTrue()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newFalse()
 	case japanese:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
-		h.isUkranian = newFalse()
+		h.isUkrainian = newFalse()
 		h.isJapanese = newTrue()
 		h.isNorwegian = newFalse()
 	case norwegian:
 		h.isEnglishman = newFalse()
 		h.isSpaniard = newFalse()
-		h.isUkranian = newFalse()
+		h.isUkrainian = newFalse()
 		h.isJapanese = newFalse()
 		h.isNorwegian = newTrue()
 	}
@@ -97,8 +124,8 @@ func (h *boolHouse) negateInhabitant(i string) {
 		h.isEnglishman = newFalse()
 	case spaniard:
 		h.isSpaniard = newFalse()
-	case ukranian:
-		h.isUkranian = newFalse()
+	case ukrainian:
+		h.isUkrainian = newFalse()
 	case norwegian:
 		h.isNorwegian = newFalse()
 	case japanese:
@@ -106,33 +133,33 @@ func (h *boolHouse) negateInhabitant(i string) {
 	}
 }
 
-func (h *boolHouse) setOrder(i int) {
+func (h *boolHouse) setOrder(i string) {
 	switch i {
-	case 1:
+	case "1":
 		h.isFirst = newTrue()
 		h.isSecond = newFalse()
 		h.isThird = newFalse()
 		h.isFourth = newFalse()
 		h.isFifth = newFalse()
-	case 2:
+	case "2":
 		h.isFirst = newFalse()
 		h.isSecond = newTrue()
 		h.isThird = newFalse()
 		h.isFourth = newFalse()
 		h.isFifth = newFalse()
-	case 3:
+	case "3":
 		h.isFirst = newFalse()
 		h.isSecond = newFalse()
 		h.isThird = newTrue()
 		h.isFourth = newFalse()
 		h.isFifth = newFalse()
-	case 4:
+	case "4":
 		h.isFirst = newFalse()
 		h.isSecond = newFalse()
 		h.isThird = newFalse()
 		h.isFourth = newTrue()
 		h.isFifth = newFalse()
-	case 5:
+	case "5":
 		h.isFirst = newFalse()
 		h.isSecond = newFalse()
 		h.isThird = newFalse()
@@ -141,48 +168,48 @@ func (h *boolHouse) setOrder(i int) {
 	}
 }
 
-func (h *boolHouse) negateOrder(i int) {
+func (h *boolHouse) negateOrder(i string) {
 	switch i {
-	case 1:
+	case "1":
 		h.isFirst = newFalse()
-	case 2:
+	case "2":
 		h.isSecond = newFalse()
-	case 3:
+	case "3":
 		h.isThird = newFalse()
-	case 4:
+	case "4":
 		h.isFourth = newFalse()
-	case 5:
+	case "5":
 		h.isFifth = newFalse()
 	}
 }
 
 func (h *boolHouse) setDrink(drink string) {
 	switch drink {
-	case "Milk":
+	case milk:
 		h.drinksMilk = newTrue()
 		h.drinksWater = newFalse()
 		h.drinksTea = newFalse()
 		h.drinksCoffee = newFalse()
 		h.drinksOrangeJuice = newFalse()
-	case "Water":
+	case water:
 		h.drinksMilk = newFalse()
 		h.drinksWater = newTrue()
 		h.drinksTea = newFalse()
 		h.drinksCoffee = newFalse()
 		h.drinksOrangeJuice = newFalse()
-	case "Tea":
+	case tea:
 		h.drinksMilk = newFalse()
 		h.drinksWater = newFalse()
 		h.drinksTea = newTrue()
 		h.drinksCoffee = newFalse()
 		h.drinksOrangeJuice = newFalse()
-	case "Coffee":
+	case coffee:
 		h.drinksMilk = newFalse()
 		h.drinksWater = newFalse()
 		h.drinksTea = newFalse()
 		h.drinksCoffee = newTrue()
 		h.drinksOrangeJuice = newFalse()
-	case "Orange Juice":
+	case orangeJuice:
 		h.drinksMilk = newFalse()
 		h.drinksWater = newFalse()
 		h.drinksTea = newFalse()
@@ -193,46 +220,46 @@ func (h *boolHouse) setDrink(drink string) {
 
 func (h *boolHouse) negateDrink(drink string) {
 	switch drink {
-	case "Milk":
+	case milk:
 		h.drinksMilk = newFalse()
-	case "Water":
+	case water:
 		h.drinksWater = newFalse()
-	case "Tea":
+	case tea:
 		h.drinksTea = newFalse()
-	case "Coffee":
+	case coffee:
 		h.drinksCoffee = newFalse()
-	case "Orange Juice":
+	case orangeJuice:
 		h.drinksOrangeJuice = newFalse()
 	}
 }
 
 func (h *boolHouse) setCigarette(cigarette string) {
 	switch cigarette {
-	case "Old Gold":
+	case oldGold:
 		h.smokesOldGold = newTrue()
 		h.smokesKools = newFalse()
 		h.smokesChesterfields = newFalse()
 		h.smokesLuckyStrike = newFalse()
 		h.smokesParliaments = newFalse()
-	case "Kools":
+	case kools:
 		h.smokesOldGold = newFalse()
 		h.smokesKools = newTrue()
 		h.smokesChesterfields = newFalse()
 		h.smokesLuckyStrike = newFalse()
 		h.smokesParliaments = newFalse()
-	case "Chesterfields":
+	case chesterfields:
 		h.smokesOldGold = newFalse()
 		h.smokesKools = newFalse()
 		h.smokesChesterfields = newTrue()
 		h.smokesLuckyStrike = newFalse()
 		h.smokesParliaments = newFalse()
-	case "Lucky Strike":
+	case luckyStrike:
 		h.smokesOldGold = newFalse()
 		h.smokesKools = newFalse()
 		h.smokesChesterfields = newFalse()
 		h.smokesLuckyStrike = newTrue()
 		h.smokesParliaments = newFalse()
-	case "Parliaments":
+	case parliaments:
 		h.smokesOldGold = newFalse()
 		h.smokesKools = newFalse()
 		h.smokesChesterfields = newFalse()
@@ -243,46 +270,46 @@ func (h *boolHouse) setCigarette(cigarette string) {
 
 func (h *boolHouse) negateCigarette(cigarette string) {
 	switch cigarette {
-	case "Old Gold":
+	case oldGold:
 		h.smokesOldGold = newFalse()
-	case "Kools":
+	case kools:
 		h.smokesKools = newFalse()
-	case "Chesterfields":
+	case chesterfields:
 		h.smokesChesterfields = newFalse()
-	case "Lucky Strike":
+	case luckyStrike:
 		h.smokesLuckyStrike = newFalse()
-	case "Parliaments":
+	case parliaments:
 		h.smokesParliaments = newFalse()
 	}
 }
 
 func (h *boolHouse) setColor(color string) {
 	switch color {
-	case "Red":
+	case red:
 		h.paintedRed = newTrue()
 		h.paintedGreen = newFalse()
 		h.paintedIvory = newFalse()
 		h.paintedYellow = newFalse()
 		h.paintedBlue = newFalse()
-	case "Green":
+	case green:
 		h.paintedRed = newFalse()
 		h.paintedGreen = newTrue()
 		h.paintedIvory = newFalse()
 		h.paintedYellow = newFalse()
 		h.paintedBlue = newFalse()
-	case "Ivory":
+	case ivory:
 		h.paintedRed = newFalse()
 		h.paintedGreen = newFalse()
 		h.paintedIvory = newTrue()
 		h.paintedYellow = newFalse()
 		h.paintedBlue = newFalse()
-	case "Yellow":
+	case yellow:
 		h.paintedRed = newFalse()
 		h.paintedGreen = newFalse()
 		h.paintedIvory = newFalse()
 		h.paintedYellow = newTrue()
 		h.paintedBlue = newFalse()
-	case "Blue":
+	case blue:
 		h.paintedRed = newFalse()
 		h.paintedGreen = newFalse()
 		h.paintedIvory = newFalse()
@@ -293,15 +320,15 @@ func (h *boolHouse) setColor(color string) {
 
 func (h *boolHouse) negateColor(color string) {
 	switch color {
-	case "Red":
+	case red:
 		h.paintedRed = newFalse()
-	case "Green":
+	case green:
 		h.paintedGreen = newFalse()
-	case "Blue":
+	case blue:
 		h.paintedBlue = newFalse()
-	case "Ivory":
+	case ivory:
 		h.paintedIvory = newFalse()
-	case "Yellow":
+	case yellow:
 		h.paintedYellow = newFalse()
 	}
 }
@@ -313,30 +340,30 @@ func (h *boolHouse) setPet(pet string) {
 	h.ownsHorse = newFalse()
 	h.ownsZebra = newFalse()
 	switch pet {
-	case "Dog":
+	case dog:
 		h.ownsDog = newTrue()
-	case "Snails":
+	case snails:
 		h.ownsSnails = newTrue()
-	case "Fox":
+	case fox:
 		h.ownsFox = newTrue()
-	case "Horse":
+	case horse:
 		h.ownsHorse = newTrue()
-	case "Zebra":
+	case zebra:
 		h.ownsZebra = newTrue()
 	}
 }
 
 func (h *boolHouse) negatePet(pet string) {
 	switch pet {
-	case "Dog":
+	case dog:
 		h.ownsDog = newFalse()
-	case "Snails":
+	case snails:
 		h.ownsSnails = newFalse()
-	case "Fox":
+	case fox:
 		h.ownsFox = newFalse()
-	case "Horse":
+	case horse:
 		h.ownsHorse = newFalse()
-	case "Zebra":
+	case zebra:
 		h.ownsZebra = newFalse()
 	}
 }

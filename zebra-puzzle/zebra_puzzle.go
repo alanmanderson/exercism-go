@@ -1,5 +1,7 @@
 package zebra
 
+import "fmt"
+
 //Solution stuff
 type Solution struct {
 	DrinksWater string
@@ -66,40 +68,73 @@ func SolvePuzzle() Solution {
 	}
 	setup(&houses)
 	solution := Solution{"", ""}
-	for _, house := range houses {
-		if house.drinksWater {
-			solution.DrinksWater = house.getInhabitant()
+	for _, h := range houses {
+		if h.drinksWater != nil && *h.drinksWater {
+			solution.DrinksWater = h.getInhabitant()
 		}
-		if house.ownsZebra {
-			solution.OwnsZebra = house.getInhabitant()
+		if h.ownsZebra != nil && *h.ownsZebra {
+			solution.OwnsZebra = h.getInhabitant()
 		}
 	}
 	return solution
 }
 
 func setup(houses *[5]boolHouse) {
-	houses[0].setInhabitant("Englishman")
-	houses[0].setColor("Red")
-	negateAttribute(houses, "Color", "Red", 0)
-	negateAttribute(houses, "Inhabitant", "Englishman", 0)
+	// 2. The Englishman lives in the red house.
+	houses[0].setInhabitant(englishman)
+	houses[0].setColor(red)
+	negateAttribute(houses, color, red, 0)
+	negateAttribute(houses, inhabitant, englishman, 0)
 
-	houses[1].setInhabitant("Spaniard")
-	houses[1].setPet("Dog")
-	negateAttribute(houses, "Pet", "Dog", 1)
-	negateAttribute(houses, "Inhabitant", "Spaniard", 1)
+	// 3. The Spaniard owns the dog.
+	houses[1].setInhabitant(spaniard)
+	houses[1].setPet(dog)
+	negateAttribute(houses, pet, dog, 1)
+	negateAttribute(houses, inhabitant, spaniard, 1)
 
-	houses[2].setInhabitant("Ukranian")
-	houses[2].setDrink("Tea")
-	negateAttribute(houses, "Inhabitant", "Ukranian", 2)
-	negateAttribute(houses, "Drink", "Tea", 2)
+	// 4. Coffee is drunk in the green house.
+	houses[0].negateDrink(coffee)
 
-	houses[0].negateDrink("Coffee")
-	houses[1].setInhabitant("Norwegian")
-	houses[1].setOrder(1)
-	houses[1].negateCigarette("Parliament")
-	houses[2].setOrder(2)
-	houses[2].setColor("Blue")
+	// 5. The Ukrainian drinks tea.
+	houses[2].setInhabitant(ukrainian)
+	houses[2].setDrink(tea)
+	negateAttribute(houses, inhabitant, ukrainian, 2)
+	negateAttribute(houses, drink, tea, 2)
 
+	// 6. The green house is immediately to the right of the ivory house.
+
+	// 7. The Old Gold smoker owns snails.
+
+	// 8. Kools are smoked in the yellow house.
+
+	// 9. Milk is drunk in the middle house.
+	houses[3].negateDrink(milk)
+	houses[2].negateOrder("3")
+
+	// 10. The Norwegian lives in the first house.
+	houses[3].setInhabitant(norwegian)
+	houses[3].setOrder("1")
+	negateAttribute(houses, order, "1", 3)
+	negateAttribute(houses, inhabitant, norwegian, 3)
+
+	// 11. The man who smokes Chesterfields lives in the house next to the man with the fox.
+
+	// 12. Kools are smoked in the house next to the house where the horse is kept.
+
+	// 13. The Lucky Strike smoker drinks orange juice.
+	houses[2].negateDrink(orangeJuice)
+
+	// 14. The Japanese smokes Parliaments.
+	houses[4].setInhabitant(japanese)
+	houses[4].setCigarette(parliaments)
+	negateAttribute(houses, inhabitant, japanese, 4)
+	negateAttribute(houses, cigarette, parliaments, 4)
+
+	// 15. The Norwegian lives next to the blue house.
+
+	for _, h := range houses {
+		fmt.Printf("%v", h)
+	}
 }
 
 func negateAttribute(houses *[5]boolHouse, attName string, attValue string, exclude int) {
@@ -108,15 +143,15 @@ func negateAttribute(houses *[5]boolHouse, attName string, attValue string, excl
 			continue
 		}
 		switch attName {
-		case "Drink":
+		case drink:
 			houses[i].negateDrink(attValue)
-		case "Inhabitant":
-			houses[i].negateInahbitant(attValue)
-		case "Pet":
+		case inhabitant:
+			houses[i].negateInhabitant(attValue)
+		case pet:
 			houses[i].negatePet(attValue)
-		case "Cigarette":
+		case cigarette:
 			houses[i].negateCigarette(attValue)
-		case "Color":
+		case color:
 			houses[i].negateColor(attValue)
 		}
 	}
