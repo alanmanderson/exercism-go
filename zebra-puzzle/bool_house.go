@@ -368,6 +368,10 @@ func (h *boolHouse) negatePet(pet string) {
 	}
 }
 
+func isTrue(b *bool) bool {
+	return b != nil && *b
+}
+
 func newTrue() *bool {
 	b := true
 	return &b

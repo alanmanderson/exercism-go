@@ -67,6 +67,19 @@ func SolvePuzzle() Solution {
 		boolHouse{},
 	}
 	setup(&houses)
+	var c constraint
+	c = constraint{
+		func(houses [5]boolHouse) bool {
+			redCount := 0
+			for _, h := range houses {
+				if h.paintedRed != nil && *h.paintedRed {
+					redCount++
+				}
+			}
+			return redCount == 1
+		},
+	}
+	fmt.Printf("%t", c.satisfied(houses))
 	solution := Solution{"", ""}
 	for _, h := range houses {
 		if h.drinksWater != nil && *h.drinksWater {
@@ -133,7 +146,7 @@ func setup(houses *[5]boolHouse) {
 	// 15. The Norwegian lives next to the blue house.
 
 	for _, h := range houses {
-		fmt.Printf("%v", h)
+		fmt.Printf("%p", h)
 	}
 }
 
