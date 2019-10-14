@@ -116,6 +116,39 @@ func makeConstraints() []constraint {
 				return countTrues(bools) <= 1
 			},
 		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].ownsFox,
+					houses[1].ownsFox,
+					houses[2].ownsFox,
+					houses[3].ownsFox,
+					houses[4].ownsFox,
+				}
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].ownsHorse,
+					houses[1].ownsHorse,
+					houses[2].ownsHorse,
+					houses[3].ownsHorse,
+					houses[4].ownsHorse,
+				}
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].ownsZebra,
+					houses[1].ownsZebra,
+					houses[2].ownsZebra,
+					houses[3].ownsZebra,
+					houses[4].ownsZebra,
+				}
+			},
+		},
 	}
 }
 
