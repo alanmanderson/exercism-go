@@ -125,6 +125,7 @@ func makeConstraints() []constraint {
 					houses[3].ownsFox,
 					houses[4].ownsFox,
 				}
+				return countTrues(bools) <= 1
 			},
 		},
 		constraint{
@@ -136,6 +137,7 @@ func makeConstraints() []constraint {
 					houses[3].ownsHorse,
 					houses[4].ownsHorse,
 				}
+				return countTrues(bools) <= 1
 			},
 		},
 		constraint{
@@ -147,6 +149,67 @@ func makeConstraints() []constraint {
 					houses[3].ownsZebra,
 					houses[4].ownsZebra,
 				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].paintedRed,
+					houses[1].paintedRed,
+					houses[2].paintedRed,
+					houses[3].paintedRed,
+					houses[4].paintedRed,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].paintedYellow,
+					houses[1].paintedYellow,
+					houses[2].paintedYellow,
+					houses[3].paintedYellow,
+					houses[4].paintedYellow,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].paintedIvory,
+					houses[1].paintedIvory,
+					houses[2].paintedIvory,
+					houses[3].paintedIvory,
+					houses[4].paintedIvory,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].paintedGreen,
+					houses[1].paintedGreen,
+					houses[2].paintedGreen,
+					houses[3].paintedGreen,
+					houses[4].paintedGreen,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].paintedBlue,
+					houses[1].ownsHorse,
+					houses[2].ownsHorse,
+					houses[3].ownsHorse,
+					houses[4].ownsHorse,
+				}
+				return countTrues(bools) <= 1
 			},
 		},
 	}
