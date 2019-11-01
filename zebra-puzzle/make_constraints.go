@@ -203,11 +203,59 @@ func makeConstraints() []constraint {
 		constraint{
 			func(houses [5]boolHouse) bool {
 				bools := []*bool{
-					houses[0].paintedBlue,
-					houses[1].ownsHorse,
-					houses[2].ownsHorse,
-					houses[3].ownsHorse,
-					houses[4].ownsHorse,
+					houses[0].isFirst,
+					houses[1].isFirst,
+					houses[2].isFirst,
+					houses[3].isFirst,
+					houses[4].isFirst,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].isSecond,
+					houses[1].isSecond,
+					houses[2].isSecond,
+					houses[3].isSecond,
+					houses[4].isSecond,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].isThird,
+					houses[1].isThird,
+					houses[2].isThird,
+					houses[3].isThird,
+					houses[4].isThird,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].isFourth,
+					houses[1].isFourth,
+					houses[2].isFourth,
+					houses[3].isFourth,
+					houses[4].isFourth,
+				}
+				return countTrues(bools) <= 1
+			},
+		},
+		constraint{
+			func(houses [5]boolHouse) bool {
+				bools := []*bool{
+					houses[0].isFifth,
+					houses[1].isFifth,
+					houses[2].isFifth,
+					houses[3].isFifth,
+					houses[4].isFifth,
 				}
 				return countTrues(bools) <= 1
 			},

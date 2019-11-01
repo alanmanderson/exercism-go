@@ -16,6 +16,12 @@ func Song() string {
 
 // Verse returns the text for a given verse
 func Verse(n int) string {
+	//	var verses = []string{
+	//		"On the first day of Christmas my true love gave to me:",
+	//		"On the second day of Christmas my true love gave to me:",
+	//		"On the third day of Christmas my true love gave to me:",
+	//		"On the fouth day of Christmas my true love gave to me:""
+	//	}
 	daysOfChristmas := []string{
 		"Partridge in a Pear Tree",
 		"Turtle Doves",

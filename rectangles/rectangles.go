@@ -8,16 +8,16 @@ type coordinate [2]int
 func Count(diagram []string) int {
 	coordinates := getCorners(diagram)
 	xCoordinateMap, yCoordinateMap := getCoordinateMaps(coordinates)
-	fmt.Printf("%v", xCoordinateMap)
-	fmt.Printf("%v", yCoordinateMap)
+
 	for i, c := range coordinates {
-		for _, pair := range coordinates[i:] {
-			fmt.Println("map: ", pair)
-			fmt.Printf("%v", c)
-		}
+		//for _, pair := range coordinates[i:] {
+		fmt.Printf("%v", c)
+		//}
 	}
 	return 0
 }
+
+func countSquares() int {}
 
 func getCorners(diagram []string) []coordinate {
 	coordinates := make([]coordinate, 0)
@@ -32,6 +32,8 @@ func getCorners(diagram []string) []coordinate {
 }
 
 func getCoordinateMaps(coordinates []coordinate) (x map[int][]coordinate, y map[int][]coordinate) {
+	x = make(map[int][]coordinate, 0)
+	y = make(map[int][]coordinate, 0)
 	for _, c := range coordinates {
 		if x[c[0]] == nil {
 			x[c[0]] = make([]coordinate, 1)
